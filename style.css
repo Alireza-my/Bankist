@@ -1,0 +1,56 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  color: #444;
+  background-color: #f3f3f3;
+  height: 100vh;
+  padding: 1.5rem;
+}
+
+/* Navigation */
+
+nav {
+  font-size: 21px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 1.2rem;
+}
+
+#logo {
+  width: 180px;
+}
+
+/* Login form */
+form input {
+  text-align: center;
+  border-radius: 30px;
+  padding: 0.5rem;
+  width: 120px;
+  outline: none;
+  border: 1px solid #fff;
+  color: #444;
+  font-size: 14px;
+  transition: all 0.3s;
+  letter-spacing: 2px;
+}
+
+form input:focus{
+    transition: all 0.3s;
+    border: 1px solid #7b7b7b;
+}
+
+/* button */
+
+#loginBtn{
+    border: none;
+    background: none;
+    font-size: 21px;
+    color: #444;
+    cursor: pointer;
+}
