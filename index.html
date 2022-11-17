@@ -11,14 +11,38 @@
   <body>
     <nav>
       <p>Log in to get started</p>
-      <img src="img/logo.png" alt="logo" id="logo"/>
+      <img src="img/logo.png" alt="logo" id="logo" />
       <form action="">
         <input type="text" placeholder="USER" id="user" />
         <input type="text" placeholder="PIN" id="pin" />
         <button type="button" id="loginBtn">&#8594;</button>
       </form>
     </nav>
+
+    <!-- main -->
+    <main>
+      <!-- time -->
+      <div id="topnav">
+        <div id="time">
+          <p>Current balance</p>
+          <p>As of <span id="date"></span></p>
+        </div>
+        <!-- total -->
+        <div id="total">
+          <p id="totalMoney">2541,254$</p>
+        </div>
+      </div>
+      <!-- movement record-->
+      <ul class="movement">
+        <li class="movementRow">
+          <div class="movementType movementTypeDeposite">1 Deposite</div>
+          <div class="movementDate">10/12/1222</div>
+          <div class="movementValue">1000$</div>
+        </li>
+      </ul>
+    </main>
     <!-- js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
     <script src="app.js"></script>
   </body>
 </html>

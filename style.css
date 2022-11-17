@@ -1,7 +1,7 @@
-*{
-    padding: 0;
-    margin: 0;
-    box-sizing: border-box;
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
 }
 
 body {
@@ -40,17 +40,87 @@ form input {
   letter-spacing: 2px;
 }
 
-form input:focus{
-    transition: all 0.3s;
-    border: 1px solid #7b7b7b;
+form input:focus {
+  transition: all 0.3s;
+  border: 1px solid #7b7b7b;
 }
 
 /* button */
 
-#loginBtn{
-    border: none;
-    background: none;
-    font-size: 21px;
-    color: #444;
-    cursor: pointer;
+#loginBtn {
+  border: none;
+  background: none;
+  font-size: 21px;
+  color: #444;
+  cursor: pointer;
+}
+
+/* main part */
+main {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  width: 80%;
+  margin-left: 120px;
+}
+#topnav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 4rem 2rem 2rem 0rem;
+}
+#time {
+  color: #7b7b7b;
+  font-size: 19px;
+}
+#total {
+  font-size: 47px;
+}
+
+/* movement record */
+.movement {
+  width: 60%;
+  display: flex;
+  flex-direction: column;
+  height: 500px;
+  overflow-y: scroll;
+  background-color: #fff;
+  border-radius: 1rem;
+}
+
+.movementRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 90%;
+  height: 15%;
+  padding: 1rem;
+  border-bottom: 1px solid #ddd;
+  margin-left: 5%;
+}
+
+.movementType {
+  font-size: 0.71rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: 500;
+  color: #fff;
+  padding: 0.3rem 1rem 0rem 1rem;
+  border-radius: 10rem;
+  margin-right: 2rem;
+  width: 7rem;
+  height: 1.3rem;
+  
+}
+
+.movementTypeDeposite {
+  background-image: linear-gradient(to top left, #39b385, #9be15d);
+}
+
+.movementTypeWitdraw {
+  background-image: linear-gradient(to top left, #e52a5a, #ff585f);
+}
+
+.movementValue {
+  font-size: 18px;
 }
