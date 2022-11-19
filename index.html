@@ -33,13 +33,48 @@
         </div>
       </div>
       <!-- movement record-->
-      <ul class="movement">
-        <li class="movementRow">
-          <div class="movementType movementTypeDeposite">1 Deposite</div>
-          <div class="movementDate">10/12/1222</div>
-          <div class="movementValue">1000$</div>
-        </li>
-      </ul>
+      <div class="middleone">
+        <ul class="movement">
+          <li class="movementRow">
+            <div class="movementType movementTypeDeposite">1 Deposite</div>
+            <div class="movementDate">10/12/1222</div>
+            <div class="movementValue">1000$</div>
+          </li>
+        </ul>
+        <!-- side -->
+        <div class="op">
+          <div class="operation operationTransfer">
+            <h2>Transfer Money</h2>
+            <form action="">
+              <input type="text" id="textInput" />
+              <input type="number" id="numInput" />
+              <button type="button">&#8594;</button>
+              <label for="textInput">Transfer To</label>
+              <label for="numInput">Amount</label>
+            </form>
+          </div>
+
+          <div class="operation operationLoan">
+            <h2>Request loan</h2>
+            <form action="">
+              <input type="number" id="numInput" />
+              <button type="button">&#8594;</button>
+              <label for="numInput">Amount</label>
+            </form>
+          </div>
+
+          <div class="operation operationClose">
+            <h2>Close account</h2>
+            <form action="">
+              <input type="text" id="textInput" />
+              <input type="number" id="numInput" />
+              <button type="button">&#8594;</button>
+              <label for="textInput">Confirm user</label>
+              <label for="numInput">Confirm PIN</label>
+            </form>
+          </div>
+        </div>
+      </div>
     </main>
     <!-- js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>

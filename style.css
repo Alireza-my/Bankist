@@ -27,7 +27,7 @@ nav {
 }
 
 /* Login form */
-form input {
+nav form input {
   text-align: center;
   border-radius: 30px;
   padding: 0.5rem;
@@ -40,7 +40,7 @@ form input {
   letter-spacing: 2px;
 }
 
-form input:focus {
+nav form input:focus {
   transition: all 0.3s;
   border: 1px solid #7b7b7b;
 }
@@ -56,12 +56,18 @@ form input:focus {
 }
 
 /* main part */
+.middleone {
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem;
+}
+
 main {
   display: flex;
   flex-direction: column;
   justify-content: space-around;
-  width: 80%;
-  margin-left: 120px;
+  width: 90%;
+  margin-left: 10vh;
 }
 #topnav {
   display: flex;
@@ -71,7 +77,7 @@ main {
 }
 #time {
   color: #7b7b7b;
-  font-size: 19px;
+  font-size: 23px;
 }
 #total {
   font-size: 47px;
@@ -82,7 +88,7 @@ main {
   width: 60%;
   display: flex;
   flex-direction: column;
-  height: 500px;
+  height: 600px;
   overflow-y: scroll;
   background-color: #fff;
   border-radius: 1rem;
@@ -100,7 +106,7 @@ main {
 }
 
 .movementType {
-  font-size: 0.71rem;
+  font-size: 0.73rem;
   text-transform: uppercase;
   letter-spacing: 1px;
   font-weight: 500;
@@ -108,9 +114,8 @@ main {
   padding: 0.3rem 1rem 0rem 1rem;
   border-radius: 10rem;
   margin-right: 2rem;
-  width: 7rem;
+  width: 7.5rem;
   height: 1.3rem;
-  
 }
 
 .movementTypeDeposite {
@@ -123,4 +128,71 @@ main {
 
 .movementValue {
   font-size: 18px;
+}
+
+/* operation part */
+
+.op {
+  display: flex;
+  flex-direction: column;
+  width: 40%;
+  padding: 1rem 0.5rem;
+}
+
+.operation {
+  margin: 0 0px 15px 25px;
+  flex-basis: 100%;
+  flex: 1;
+  height: 100px;
+  align-items: center;
+  padding: 1.2rem;
+  border-radius: 1.2rem;
+}
+
+.operation h2 {
+  display: block;
+  margin: 5px 5px 15px 0;
+}
+
+.operation form {
+  padding: 1.5rem 0rem;
+}
+.operation input {
+  background-color: rgba(255, 255, 255, 0.4);
+  border-radius: 1rem;
+  border: none;
+  padding: 5px;
+  width: 35%;
+  margin-bottom: 7px;
+  outline: none;
+}
+
+.operation button {
+  font-size: 17px;
+  background: #fff;
+  border: none;
+  border-radius: 5px;
+  width: 20%;
+  cursor: pointer;
+}
+.operation label {
+  font-size: 12px;
+  font-weight: bolder;
+  margin: 25px;
+}
+
+.operationLoan label {
+  display: block;
+  margin-top: 5px;
+}
+
+.operationTransfer {
+  background-image: linear-gradient(to top left, #39b385, #9be15d);
+}
+.operationLoan {
+  background-image: linear-gradient(to top left, #ffb003, #ffcb03);
+}
+
+.operationClose {
+  background-image: linear-gradient(to top left, #e52a5a, #ff585f);
 }
