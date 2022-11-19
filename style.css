@@ -12,7 +12,7 @@ body {
   padding: 1.5rem;
 }
 
-/* Navigation */
+/*! Navigation */
 
 nav {
   font-size: 21px;
@@ -55,7 +55,7 @@ nav form input:focus {
   cursor: pointer;
 }
 
-/* main part */
+/*! main part */
 .middleone {
   display: flex;
   justify-content: space-between;
@@ -130,7 +130,7 @@ main {
   font-size: 18px;
 }
 
-/* operation part */
+/*! operation part */
 
 .op {
   display: flex;
@@ -195,4 +195,40 @@ main {
 
 .operationClose {
   background-image: linear-gradient(to top left, #e52a5a, #ff585f);
+}
+
+/*! summary */
+footer{
+  display: flex;
+  justify-content: space-between;
+}
+.summary{
+  display: flex;
+}
+.summary p {
+  margin-left:8vh;
+}
+.sumSpan{
+  font-size: 25px;
+  padding: 0.4rem;
+} 
+#income{
+color:rgb(33, 160, 33);
+}
+#outcome{
+  color: red;
+}
+#interest{
+  color:#bda208;
+}
+
+.summary button{
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.logout{
+  position: relative;
+  right: 8vh;
 }
