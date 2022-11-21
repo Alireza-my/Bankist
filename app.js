@@ -9,6 +9,14 @@ let userInput = document.getElementById('user');
 let pinInput = document.getElementById('pin');
 const welcomeLabel = document.getElementById('welcome');
 const main = document.querySelector('main');
+const textInputTransfer = document.getElementById('textInputTransfer');
+const numInputTransfer = document.getElementById('numInputTransfer');
+const btnTransfer = document.getElementById('btnTransfer');
+const textInputLoan = document.getElementById('textInputLoan');
+const btnLoan = document.getElementById('btnLoan');
+const textInputclose = document.getElementById('textInputclose');
+const numInputClose = document.getElementById('numInputClose');
+const btnClose = document.getElementById('btnClose');
 // accounts
 const account1 = {
   owner: 'Alireza Mahmoodi',
@@ -64,7 +72,7 @@ function showMovement(movement) {
 // balance
 const showBalance = function (movement) {
   const balance = movement.reduce((acc, mov) => acc + mov);
-  totalMoney.textContent = `${balance} $`;
+  totalMoney.textContent = `${balance}`;
 };
 
 // Summary
@@ -98,11 +106,20 @@ const creatUsername = function (accs) {
 };
 creatUsername(accounts);
 
+// Upadte UI
+function updateUI(acc) {
+  // Display movement
+  showMovement(acc.movement);
+  // Display balance
+  showBalance(acc.movement);
+  // Display summary
+  calcSummary(acc);
+}
+
 // Select diffrent accounts
 let currentAccount;
 loginBtn.addEventListener('click', function () {
   currentAccount = accounts.find(acc => acc.username === userInput.value);
-
   if (currentAccount?.pin === Number(pinInput.value)) {
     welcomeLabel.textContent = `Welcome back, ${
       currentAccount.owner.split(' ')[0]
@@ -110,13 +127,27 @@ loginBtn.addEventListener('click', function () {
     main.style.opacity = 100;
     // Clear fields
     userInput.value = pinInput.value = '';
-    // Display movement
-    showMovement(currentAccount.movement);
-    // Display balance
-    showBalance(currentAccount.movement);
-    // Display summary
-    calcSummary(currentAccount);
+    updateUI(currentAccount);
   }
 });
 
 // Transfer part
+btnTransfer.addEventListener('click', function () {
+  const amount = Number(numInputTransfer.value);
+  const receiverAccount = accounts.find(
+    acc => acc.username === textInputTransfer.value
+  );
+  numInputTransfer.value = textInputTransfer.value = '';
+
+  if (
+    amount > 0 &&
+    Number(totalMoney.textContent) >= amount &&
+    receiverAccount.username !== currentAccount.username &&
+    receiverAccount
+  ) {
+    currentAccount.movement.push(-amount);
+    receiverAccount.movement.push(amount);
+    // Update
+    updateUI(currentAccount);
+  }
+});

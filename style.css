@@ -83,6 +83,9 @@ main {
 #total {
   font-size: 47px;
 }
+#total p{
+  display: inline-block;
+}
 
 /* movement record */
 .movement {
