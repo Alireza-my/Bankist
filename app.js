@@ -14,10 +14,10 @@ const numInputTransfer = document.getElementById('numInputTransfer');
 const btnTransfer = document.getElementById('btnTransfer');
 const textInputLoan = document.getElementById('textInputLoan');
 const btnLoan = document.getElementById('btnLoan');
-const textInputclose = document.getElementById('textInputclose');
+const textInputClose = document.getElementById('textInputClose');
 const numInputClose = document.getElementById('numInputClose');
 const btnClose = document.getElementById('btnClose');
-// accounts
+//! accounts
 const account1 = {
   owner: 'Alireza Mahmoodi',
   movement: [200, 340, -85, -9654, 145, 1247, 2563, -96, 58, -5874, 65],
@@ -45,7 +45,7 @@ const account4 = {
 
 const accounts = [account1, account2, account3, account4];
 
-// logic
+//! logic
 setInterval(todayTime, 1000);
 function todayTime() {
   let today = moment().format('DD/MM/YYYY ,HH:mm');
@@ -69,13 +69,13 @@ function showMovement(movement) {
     movementContainer.insertAdjacentHTML('afterbegin', html);
   });
 }
-// balance
+//! balance
 const showBalance = function (movement) {
   const balance = movement.reduce((acc, mov) => acc + mov);
   totalMoney.textContent = `${balance}`;
 };
 
-// Summary
+//! Summary
 function calcSummary(acc) {
   const incomes = acc.movement
     .filter(mov => mov > 0)
@@ -93,7 +93,7 @@ function calcSummary(acc) {
     .reduce((acc, int) => acc + int, 0);
   interest.innerHTML = `${interests}$`;
 }
-// Account user maker
+//! Account user maker
 
 const creatUsername = function (accs) {
   accs.forEach(function (acc) {
@@ -106,7 +106,7 @@ const creatUsername = function (accs) {
 };
 creatUsername(accounts);
 
-// Upadte UI
+//! Upadte UI
 function updateUI(acc) {
   // Display movement
   showMovement(acc.movement);
@@ -116,7 +116,7 @@ function updateUI(acc) {
   calcSummary(acc);
 }
 
-// Select diffrent accounts
+//! Select diffrent accounts
 let currentAccount;
 loginBtn.addEventListener('click', function () {
   currentAccount = accounts.find(acc => acc.username === userInput.value);
@@ -131,13 +131,12 @@ loginBtn.addEventListener('click', function () {
   }
 });
 
-// Transfer part
+//! Transfer part
 btnTransfer.addEventListener('click', function () {
   const amount = Number(numInputTransfer.value);
   const receiverAccount = accounts.find(
     acc => acc.username === textInputTransfer.value
   );
-  numInputTransfer.value = textInputTransfer.value = '';
 
   if (
     amount > 0 &&
@@ -150,4 +149,23 @@ btnTransfer.addEventListener('click', function () {
     // Update
     updateUI(currentAccount);
   }
+  numInputTransfer.value = textInputTransfer.value = '';
+});
+
+btnClose.addEventListener('click', function () {
+  if (
+    textInputClose.value === currentAccount.username &&
+    Number(numInputClose.value) === currentAccount.pin
+  ) {
+    const index = accounts.findIndex(
+      acc => acc.username === currentAccount.username
+    );
+
+    // Delete acc
+    accounts.splice(index, 1);
+    // Hide acc
+    main.style.opacity = 0;
+  }
+
+  numInputClose.value = textInputClose.value = '';
 });
