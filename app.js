@@ -12,7 +12,7 @@ const main = document.querySelector('main');
 const textInputTransfer = document.getElementById('textInputTransfer');
 const numInputTransfer = document.getElementById('numInputTransfer');
 const btnTransfer = document.getElementById('btnTransfer');
-const textInputLoan = document.getElementById('textInputLoan');
+const numInputLoan = document.getElementById('numInputLoan');
 const btnLoan = document.getElementById('btnLoan');
 const textInputClose = document.getElementById('textInputClose');
 const numInputClose = document.getElementById('numInputClose');
@@ -151,7 +151,7 @@ btnTransfer.addEventListener('click', function () {
   }
   numInputTransfer.value = textInputTransfer.value = '';
 });
-
+// ! Clsoe
 btnClose.addEventListener('click', function () {
   if (
     textInputClose.value === currentAccount.username &&
@@ -168,4 +168,19 @@ btnClose.addEventListener('click', function () {
   }
 
   numInputClose.value = textInputClose.value = '';
+});
+
+//! loan PART
+
+btnLoan.addEventListener('click', function () {
+  const amount = Number(numInputLoan.value);
+
+  if (amount > 0 && currentAccount.movement.some(mov => mov >= amount * 0.1)) {
+    // Adding amount
+    currentAccount.movement.push(amount);
+    // Update
+    updateUI(currentAccount);
+    // Clear
+    numInputLoan.value = '';
+  }
 });
