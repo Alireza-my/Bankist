@@ -17,6 +17,7 @@ const btnLoan = document.getElementById('btnLoan');
 const textInputClose = document.getElementById('textInputClose');
 const numInputClose = document.getElementById('numInputClose');
 const btnClose = document.getElementById('btnClose');
+const btnSort = document.getElementById('btnSort');
 //! accounts
 const account1 = {
   owner: 'Alireza Mahmoodi',
@@ -52,10 +53,11 @@ function todayTime() {
   dateSpan.textContent = today;
 }
 
-function showMovement(movement) {
+function showMovement(movement, sort = false) {
   movementContainer.innerHTML = '';
+  const movs = sort ? movement.slice().sort((a, b) => a - b) : movement;
 
-  movement.forEach(function (mov, i) {
+  movs.forEach(function (mov, i) {
     const type = mov > 0 ? 'Deposite' : 'Witdraw';
 
     const html = `
@@ -183,4 +185,11 @@ btnLoan.addEventListener('click', function () {
     // Clear
     numInputLoan.value = '';
   }
+});
+
+//! Sorting movements
+let sorted = false;
+btnSort.addEventListener('click', function () {
+  showMovement(currentAccount.movement, !sorted);
+  sorted = !sorted;
 });
