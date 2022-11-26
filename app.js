@@ -64,7 +64,7 @@ function showMovement(movement, sort = false) {
     <li class="movementRow">
           <div class="movementType movementType${type}">${i + 1} ${type}</div>
           <div class="movementDate">10/12/1222</div>
-          <div class="movementValue">${mov}</div>
+          <div class="movementValue">${mov.toFixed(2)}</div>
         </li>
     `;
 
@@ -74,7 +74,7 @@ function showMovement(movement, sort = false) {
 //! balance
 const showBalance = function (movement) {
   const balance = movement.reduce((acc, mov) => acc + mov);
-  totalMoney.textContent = `${balance}`;
+  totalMoney.textContent = `${balance.toFixed(2)}`;
 };
 
 //! Summary
@@ -82,18 +82,18 @@ function calcSummary(acc) {
   const incomes = acc.movement
     .filter(mov => mov > 0)
     .reduce((acc, cur) => acc + cur, 0);
-  income.innerHTML = `${incomes}$`;
+  income.innerHTML = `${incomes.toFixed(2)}$`;
 
   const outcomes = acc.movement
     .filter(mov => mov < 0)
     .reduce((acc, cur) => acc + cur, 0);
-  outcome.innerHTML = `${Math.abs(outcomes)}$`;
+  outcome.innerHTML = `${Math.abs(outcomes).toFixed(2)}$`;
 
   const interests = acc.movement
     .filter(mov => mov > 0)
     .map(deposite => (deposite * acc.interestRate) / 100)
     .reduce((acc, int) => acc + int, 0);
-  interest.innerHTML = `${interests}$`;
+  interest.innerHTML = `${interests.toFixed(2)}$`;
 }
 //! Account user maker
 
@@ -175,7 +175,7 @@ btnClose.addEventListener('click', function () {
 //! loan PART
 
 btnLoan.addEventListener('click', function () {
-  const amount = Number(numInputLoan.value);
+  const amount = Math.floor(numInputLoan.value);
 
   if (amount > 0 && currentAccount.movement.some(mov => mov >= amount * 0.1)) {
     // Adding amount
