@@ -1,3 +1,4 @@
+'use strict';
 const dateSpan = document.getElementById('date');
 const movementContainer = document.querySelector('.movement');
 const totalMoney = document.getElementById('totalMoney');
@@ -9,11 +10,14 @@ let userInput = document.getElementById('user');
 let pinInput = document.getElementById('pin');
 const welcomeLabel = document.getElementById('welcome');
 const main = document.querySelector('main');
+
 const textInputTransfer = document.getElementById('textInputTransfer');
 const numInputTransfer = document.getElementById('numInputTransfer');
 const btnTransfer = document.getElementById('btnTransfer');
+
 const numInputLoan = document.getElementById('numInputLoan');
 const btnLoan = document.getElementById('btnLoan');
+
 const textInputClose = document.getElementById('textInputClose');
 const numInputClose = document.getElementById('numInputClose');
 const btnClose = document.getElementById('btnClose');
@@ -21,27 +25,67 @@ const btnSort = document.getElementById('btnSort');
 //! accounts
 const account1 = {
   owner: 'Alireza Mahmoodi',
-  movement: [200, 340, -85, -9654, 145, 1247, 2563, -96, 58, -5874, 65],
+  movement: [200, 340, -85, 1247, 2563, -96, 58, -5874],
   interestRate: 1.2,
   pin: 1111,
+  movementsDates: [
+    '2019-11-18T21:31:17.178Z',
+    '2019-12-23T07:42:02.383Z',
+    '2020-01-28T09:15:04.904Z',
+    '2020-04-01T10:17:24.185Z',
+    '2020-05-08T14:11:59.604Z',
+    '2020-07-26T17:01:17.194Z',
+    '2020-07-28T23:36:17.929Z',
+    '2020-08-01T10:51:36.790Z',
+  ],
 };
 const account2 = {
   owner: 'Sarah Davis',
-  movement: [-45, -859, 325, -987, 254, 658, 658, 5478, 125, -3654, 874, -2],
+  movement: [254, 658, 658, 5478, 125, -3654, 874, -2],
   interestRate: 1,
   pin: 2222,
+  movementsDates: [
+    '2019-11-01T13:15:33.035Z',
+    '2019-11-30T09:48:16.867Z',
+    '2019-12-25T06:04:23.907Z',
+    '2020-01-25T14:18:46.235Z',
+    '2020-02-05T16:33:06.386Z',
+    '2020-04-10T14:43:26.374Z',
+    '2020-06-25T18:49:59.371Z',
+    '2020-07-26T12:01:20.894Z',
+  ],
 };
 const account3 = {
   owner: 'Yanis leonard',
-  movement: [124, -1234, -5265, 3654, 8547, 2224, -1203, -1000, -2000, 4500],
+  movement: [124, -1234, -5265, 3654, 8547, 2224, -1203, -1000],
   interestRate: 0.5,
   pin: 3333,
+  movementsDates: [
+    '2019-11-18T21:31:17.178Z',
+    '2019-12-23T07:42:02.383Z',
+    '2020-01-28T09:15:04.904Z',
+    '2020-04-01T10:17:24.185Z',
+    '2020-05-08T14:11:59.604Z',
+    '2020-07-26T17:01:17.194Z',
+    '2020-07-28T23:36:17.929Z',
+    '2020-08-01T10:51:36.790Z',
+  ],
 };
 const account4 = {
   owner: 'Mike James',
-  movement: [3540, 5000, -6200, 6540, 1452, 1247, 2541, -241, 253, -658, -950],
+  movement: [3540, 5000, -6200, 6540, 1452, 1247, 2541, -241],
   interestRate: 0.7,
   pin: 4444,
+  movementsDates: [
+    '2019-11-01T13:15:33.035Z',
+    '2019-11-30T09:48:16.867Z',
+    '2019-12-25T06:04:23.907Z',
+    '2020-01-25T14:18:46.235Z',
+    '2020-02-05T16:33:06.386Z',
+    '2020-04-10T14:43:26.374Z',
+    '2020-06-25T18:49:59.371Z',
+    '2020-07-26T12:01:20.894Z',
+  ],
 };
 
 const accounts = [account1, account2, account3, account4];
@@ -53,17 +97,22 @@ function todayTime() {
   dateSpan.textContent = today;
 }
 
-function showMovement(movement, sort = false) {
+function showMovement(acc, sort = false) {
   movementContainer.innerHTML = '';
-  const movs = sort ? movement.slice().sort((a, b) => a - b) : movement;
+  const movs = sort ? acc.movement.slice().sort((a, b) => a - b) : acc.movement;
 
   movs.forEach(function (mov, i) {
     const type = mov > 0 ? 'Deposite' : 'Witdraw';
 
+    const date = new Date(acc.movementsDates[i]);
+    const day = `${date.getDate()}`.padStart(2, 0);
+    const month = `${date.getMonth() + 1}`.padStart(2, 0);
+    const year = date.getFullYear();
+    const displayDate = `${day}/${month}/${year}`;
     const html = `
     <li class="movementRow">
           <div class="movementType movementType${type}">${i + 1} ${type}</div>
-          <div class="movementDate">10/12/1222</div>
+          <div class="movementDate">${displayDate}</div>
           <div class="movementValue">${mov.toFixed(2)}</div>
         </li>
     `;
@@ -111,7 +160,7 @@ creatUsername(accounts);
 //! Upadte UI
 function updateUI(acc) {
   // Display movement
-  showMovement(acc.movement);
+  showMovement(acc);
   // Display balance
   showBalance(acc.movement);
   // Display summary
@@ -148,6 +197,10 @@ btnTransfer.addEventListener('click', function () {
   ) {
     currentAccount.movement.push(-amount);
     receiverAccount.movement.push(amount);
+
+    // adding date
+    currentAccount.movementsDates.push(new Date().toISOString());
+    receiverAccount.movementsDates.push(new Date().toISOString());
     // Update
     updateUI(currentAccount);
   }
@@ -180,6 +233,8 @@ btnLoan.addEventListener('click', function () {
   if (amount > 0 && currentAccount.movement.some(mov => mov >= amount * 0.1)) {
     // Adding amount
     currentAccount.movement.push(amount);
+    // Adding date
+    currentAccount.movementsDates.push(new Date().toISOString());
     // Update
     updateUI(currentAccount);
     // Clear
@@ -190,6 +245,6 @@ btnLoan.addEventListener('click', function () {
 //! Sorting movements
 let sorted = false;
 btnSort.addEventListener('click', function () {
-  showMovement(currentAccount.movement, !sorted);
+  showMovement(currentAccount, !sorted);
   sorted = !sorted;
 });
