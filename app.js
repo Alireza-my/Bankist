@@ -22,6 +22,7 @@ const textInputClose = document.getElementById('textInputClose');
 const numInputClose = document.getElementById('numInputClose');
 const btnClose = document.getElementById('btnClose');
 const btnSort = document.getElementById('btnSort');
+const logOutTime = document.querySelector('.logoutTime');
 //! accounts
 const account1 = {
   owner: 'Alireza Mahmoodi',
@@ -92,10 +93,40 @@ const account4 = {
     '2020-06-25T18:49:59.371Z',
     '2020-07-26T12:01:20.894Z',
   ],
-  currency: 'TWD',
-  local: 'zh',
+  currency: 'USD',
+  local: 'wn-US',
 };
 const accounts = [account1, account2, account3, account4];
+// ! Timer out!!
+
+const startLogOutTimer = function () {
+  const tick = function () {
+    const min = String(Math.trunc(time / 60)).padStart(2, 0);
+    const sec = String(time % 60).padStart(2, 0);
+
+    // In each call, print the remaining time to UI
+    logOutTime.textContent = `${min}:${sec}`;
+
+    // When 0 seconds, stop timer and log out user
+    if (time === 0) {
+      clearInterval(timer);
+      welcomeLabel.textContent = 'Log in to get started';
+      containerApp.style.opacity = 0;
+    }
+
+    // Decrease 1s
+    time--;
+  };
+
+  // Set time to 5 minutes
+  let time = 600;
+
+  // Call the timer every second
+  tick();
+  const timer = setInterval(tick, 1000);
+
+  return timer;
+};
 
 //* formatDate
 function formatDate(date, local) {
@@ -184,7 +215,7 @@ function updateUI(acc) {
 }
 
 //! Select diffrent accounts
-let currentAccount;
+let currentAccount, timer;
 loginBtn.addEventListener('click', function () {
   currentAccount = accounts.find(acc => acc.username === userInput.value);
   if (currentAccount?.pin === Number(pinInput.value)) {
@@ -208,6 +239,9 @@ loginBtn.addEventListener('click', function () {
         option
       ).format(now);
     }
+
+    if (timer) clearInterval(timer);
+    timer = startLogOutTimer();
     // Clear fields
     userInput.value = pinInput.value = '';
     updateUI(currentAccount);
@@ -223,7 +257,7 @@ btnTransfer.addEventListener('click', function () {
 
   if (
     amount > 0 &&
-    Number(totalMoney.textContent) >= amount &&
+    Number.parseFloat(totalMoney.textContent) >= amount &&
     receiverAccount.username !== currentAccount.username &&
     receiverAccount
   ) {
@@ -235,6 +269,9 @@ btnTransfer.addEventListener('click', function () {
     receiverAccount.movementsDates.push(new Date().toISOString());
     // Update
     updateUI(currentAccount);
+    // Reset timer
+    clearInterval(timer);
+    timer = startLogOutTimer();
   }
   numInputTransfer.value = textInputTransfer.value = '';
 });
@@ -271,6 +308,9 @@ btnLoan.addEventListener('click', function () {
     updateUI(currentAccount);
     // Clear
     numInputLoan.value = ' ';
+    // Reset timer
+    clearInterval(timer);
+    timer = startLogOutTimer();
   }
 });
 
