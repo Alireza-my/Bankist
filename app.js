@@ -35,9 +35,11 @@ const account1 = {
     '2020-04-01T10:17:24.185Z',
     '2020-05-08T14:11:59.604Z',
     '2020-07-26T17:01:17.194Z',
-    '2020-07-28T23:36:17.929Z',
-    '2020-08-01T10:51:36.790Z',
+    '2022-11-20T23:36:17.929Z',
+    '2022-11-27T10:51:36.790Z',
   ],
+  currency: 'EUR',
+  local: 'pt-PT',
 };
 const account2 = {
   owner: 'Sarah Davis',
@@ -54,6 +56,8 @@ const account2 = {
     '2020-06-25T18:49:59.371Z',
     '2020-07-26T12:01:20.894Z',
   ],
+  currency: 'USD',
+  local: 'en-US',
 };
 const account3 = {
   owner: 'Yanis leonard',
@@ -70,6 +74,8 @@ const account3 = {
     '2020-07-28T23:36:17.929Z',
     '2020-08-01T10:51:36.790Z',
   ],
+  currency: 'IRR',
+  local: 'fa-IR',
 };
 const account4 = {
   owner: 'Mike James',
@@ -86,16 +92,29 @@ const account4 = {
     '2020-06-25T18:49:59.371Z',
     '2020-07-26T12:01:20.894Z',
   ],
+  currency: 'TWD',
+  local: 'zh',
 };
-
 const accounts = [account1, account2, account3, account4];
 
-//! logic
-setInterval(todayTime, 1000);
-function todayTime() {
-  let today = moment().format('DD/MM/YYYY ,HH:mm');
-  dateSpan.textContent = today;
+//* formatDate
+function formatDate(date, local) {
+  const calcDayPassed = (date1, date2) =>
+    Math.round(Math.abs(date2 - date1) / (1000 * 60 * 60 * 24));
+  const dayPassed = calcDayPassed(new Date(), date);
+
+  if (dayPassed === 0) return 'Today';
+  if (dayPassed === 1) return 'Yesterday';
+  if (dayPassed <= 7) return `${dayPassed} days ago`;
+
+  return new Intl.DateTimeFormat(local).format(date);
 }
+
+const formatCr = function (value, local, currencyi) {
+  const option = { style: 'currency', currency: currencyi };
+
+  return new Intl.NumberFormat(local, option).format(value);
+};
 
 function showMovement(acc, sort = false) {
   movementContainer.innerHTML = '';
@@ -103,17 +122,14 @@ function showMovement(acc, sort = false) {
 
   movs.forEach(function (mov, i) {
     const type = mov > 0 ? 'Deposite' : 'Witdraw';
-
     const date = new Date(acc.movementsDates[i]);
-    const day = `${date.getDate()}`.padStart(2, 0);
-    const month = `${date.getMonth() + 1}`.padStart(2, 0);
-    const year = date.getFullYear();
-    const displayDate = `${day}/${month}/${year}`;
+    const displayDate = formatDate(date, acc.local);
+    const formattedMov = formatCr(mov, acc.local, acc.currency);
     const html = `
     <li class="movementRow">
           <div class="movementType movementType${type}">${i + 1} ${type}</div>
           <div class="movementDate">${displayDate}</div>
-          <div class="movementValue">${mov.toFixed(2)}</div>
+          <div class="movementValue">${formattedMov}</div>
         </li>
     `;
 
@@ -121,9 +137,9 @@ function showMovement(acc, sort = false) {
   });
 }
 //! balance
-const showBalance = function (movement) {
-  const balance = movement.reduce((acc, mov) => acc + mov);
-  totalMoney.textContent = `${balance.toFixed(2)}`;
+const showBalance = function (acc) {
+  acc.balance = acc.movement.reduce((acc, mov) => acc + mov);
+  totalMoney.textContent = formatCr(acc.balance, acc.local, acc.currency);
 };
 
 //! Summary
@@ -131,18 +147,18 @@ function calcSummary(acc) {
   const incomes = acc.movement
     .filter(mov => mov > 0)
     .reduce((acc, cur) => acc + cur, 0);
-  income.innerHTML = `${incomes.toFixed(2)}$`;
+  income.innerHTML = formatCr(incomes, acc.local, acc.currency);
 
   const outcomes = acc.movement
     .filter(mov => mov < 0)
     .reduce((acc, cur) => acc + cur, 0);
-  outcome.innerHTML = `${Math.abs(outcomes).toFixed(2)}$`;
+  outcome.innerHTML = formatCr(Math.abs(outcomes), acc.local, acc.currency);
 
   const interests = acc.movement
     .filter(mov => mov > 0)
     .map(deposite => (deposite * acc.interestRate) / 100)
     .reduce((acc, int) => acc + int, 0);
-  interest.innerHTML = `${interests.toFixed(2)}$`;
+  interest.innerHTML = formatCr(interests, acc.local, acc.currency);
 }
 //! Account user maker
 
@@ -162,7 +178,7 @@ function updateUI(acc) {
   // Display movement
   showMovement(acc);
   // Display balance
-  showBalance(acc.movement);
+  showBalance(acc);
   // Display summary
   calcSummary(acc);
 }
@@ -176,6 +192,22 @@ loginBtn.addEventListener('click', function () {
       currentAccount.owner.split(' ')[0]
     }`;
     main.style.opacity = 100;
+    // Time
+    setInterval(todayTime, 1000);
+    function todayTime() {
+      const now = new Date();
+      const option = {
+        hour: 'numeric',
+        minute: 'numeric',
+        day: 'numeric',
+        month: 'numeric',
+        year: 'numeric',
+      };
+      dateSpan.textContent = new Intl.DateTimeFormat(
+        currentAccount.local,
+        option
+      ).format(now);
+    }
     // Clear fields
     userInput.value = pinInput.value = '';
     updateUI(currentAccount);
@@ -238,7 +270,7 @@ btnLoan.addEventListener('click', function () {
     // Update
     updateUI(currentAccount);
     // Clear
-    numInputLoan.value = '';
+    numInputLoan.value = ' ';
   }
 });
 
